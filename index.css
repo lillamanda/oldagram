@@ -1,0 +1,94 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Source Sans 3', sans-serif;
+    max-width: 375px; /*???*/
+    font-size: 13px;
+    background-color: #EDEDED;
+}
+
+/* Typography */
+
+.bold{
+    font-weight: bold;
+}
+
+.small{
+    font-size: 12px;
+    margin-top: 1px;
+    display:block;
+    font-weight: 400;
+}
+
+.post-container h3{
+    margin: 0px;
+}
+
+/* Layout */
+
+/* header, 
+.post-container{
+    max-width: 370px;
+} */
+
+header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: solid 1px #c6c6c6;
+    /* margin-bottom: 5px; */
+}
+
+header, 
+.post-container{
+    background-color: white;
+}
+
+.post-container{
+    /* max-width: 320px; */
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+}
+
+.poster-info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.post-container p{
+    margin: 12px 15px;
+}
+
+
+/* Images and buttons */
+
+.logo{
+    width: 130px;
+}
+
+.avatar{
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+}
+
+.posted-img{
+    width: 375px;
+    height: 375px; 
+    object-fit: cover;
+}
+
+.icon-btn{
+    background-color: transparent;
+    border: none;
+    height: 30px; 
+    width: 30px;
+    cursor: pointer;
+    margin: 10px 3px 5px 3px;
+}
+.icon-btn img{
+    width: inherit; /* Is this how you manage that?? */
+}
