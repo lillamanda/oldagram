@@ -1,3 +1,16 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"; 
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+
+
+
+//make this an object with the databaseURL in it
+const appSettings = {
+    databaseURL: "https://pawsome-dca92-default-rtdb.europe-west1.firebasedatabase.app/"
+};
+const app = initializeApp(appSettings);
+const database = getDatabase(app);
+const postsInDB = ref(database, "posts");
+
 const posts = [
     {
         name: "Vincent van Gogh",
@@ -27,6 +40,11 @@ const posts = [
         likes: 152
     }
 ]
+
+// for(let i = 0; i < posts.length; i++){
+//     push(postsInDB, posts[i]);
+// }
+
 
 const feedEl = document.getElementById("feed");
 const feedItems = document.createDocumentFragment();
@@ -70,7 +88,7 @@ function generatePost(postArray){
     postedImg.setAttribute("alt", `${postArray.name}s posted image`);
 
     /* Post action buttons */
-    const postActions = getPostActions();
+    const postActions = getPostActions(postArray);
 
     /* Likes / comments */
     const numberOfLikes = document.createElement("p");
@@ -84,29 +102,62 @@ function generatePost(postArray){
     postersComment.append(posterUserName);
     postersComment.append(` ${postArray.comment}`);
 
+    /* Add comment field + inactive styled input field */
+
     newPost.append(posterInfo, postedImg, postActions, numberOfLikes, postersComment);
 
     return newPost;
     
 }
 
-function getPostActions(){
+function getPostActions(postArray){
     const iconContainer = document.createElement("div");
+    
+    // Check if local user has liked
+    let hasLiked = false;
 
-    const likeBtn = generateBtn("Like", "images/icon-heart.png");
+    let likeIcon;
+    const liked = "images/icon-heart-filled.png";
+    const notLiked = "images/icon-heart.png"
+    if(hasLiked === false){
+        likeIcon = notLiked;
+    }else{
+        likeIcon = liked;
+    }
+
+    const likeBtn = generateBtn("Like", likeIcon);
+    console.log(likeBtn);
     likeBtn.addEventListener("click", function(){
+        if(hasLiked === false){
+            hasLiked = true;
+            likeIcon = liked; 
+            postArray.likes += 1;
+            likeBtn.firstElementChild.setAttribute("src", likeIcon);
+        }else{
+            hasLiked = false;
+            likeIcon = notLiked; 
+            postArray.likes -= 1;
+            likeBtn.firstElementChild.setAttribute("src", likeIcon);
+        }
+    
+        // Update website
+        // Check you haven't liked before - unlike
         console.log("likeBtn clicked!");
         console.log(likeBtn);
     });
 
     const commentBtn = generateBtn("Comment", "images/icon-comment.png");
     commentBtn.addEventListener("click", function(){
+        // automatically click into comment field
+        // add comment field underneath as well
         console.log("commentBtn clicked!");
         console.log(commentBtn);
     });
 
     const shareBtn = generateBtn("Share", "images/icon-dm.png");
     shareBtn.addEventListener("click", function(){
+        // Snackbar opens with a copy-able link
+        // How do you link to a specific div in a website?
         console.log("shareBtn clicked!");
         console.log(shareBtn);
     });

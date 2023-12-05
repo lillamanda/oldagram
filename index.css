@@ -92,3 +92,8 @@ header,
 .icon-btn img{
     width: inherit; /* Is this how you manage that?? */
 }
+
+/* .icon-btn:focus,  */
+.icon-btn:hover{
+    opacity: 70%;
+}
