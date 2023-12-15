@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html>
     <head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
         <link rel="stylesheet" href="index.css">
@@ -12,7 +14,10 @@
     <body>
         <header>
             <img class="logo" src="images/logo.png" alt="Oldagram logo">
-            <img class="avatar" src="images/user-avatar.png" alt="user avatar">
+            <button id="add-btn">
+                <img src="images/addbtn.png" alt="Add new post">
+            </button>
+            <!-- <img class="avatar" src="images/user-avatar.png" alt="user avatar"> -->
         </header>
 
         <main>
@@ -41,6 +46,53 @@
 
             </section>
             
+            <div id="add-post-modal" class="modal">
+                <div class="top-modal-content">
+                    <div id="close-modal-div">
+                        <button id="close-modal-btn">
+                            <img src="images/addbtn.png" alt="close">
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-content">
+                    <span id="close">&times;</span>
+                    <form>
+                        <ul>
+                            <li>
+                                <label for="ap-image">Upload image</label>
+                                <input type="image" id="ap-image" name="image">
+                            </li>
+    
+                            <li>
+                                <label for="ap-comment">Comment</label>
+                                <textarea id="ap-comment" name="comment" placeholder="add your comment"></textarea>
+                            </li>
+    
+                            <li>
+                                <label for="ap-name">Name</label>
+                                <input type="text" id="ap-name" name="name" placeholder="name">
+                            </li>
+    
+                            <li>
+                                <label for="ap-location">Location</label>
+                                <input type="text" id="ap-location" name="location" placeholder="location">
+                            </li>
+    
+                            <li>
+                                <label for="ap-username">Username</label>
+                                <input type="text" id="ap-username" name="username" placeholder="username">
+                            </li>
+    
+                            <li>
+                                <!-- <label for="ap-avatar">select your avatar</label> -->
+                                // Add multiple photo options
+                                <!-- <input type="image" id="" name="" placeholder=""> -->
+                            </li>
+                        </ul>
+                        <button id="ap-submit" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
 
         </main>
 

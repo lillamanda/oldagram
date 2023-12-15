@@ -11,7 +11,7 @@ const app = initializeApp(appSettings);
 const database = getDatabase(app);
 const postsInDB = ref(database, "posts");
 
-const posts = [
+/* const posts = [
     {
         name: "Vincent van Gogh",
         username: "vincey1853",
@@ -39,23 +39,66 @@ const posts = [
         comment: "gm friends! which coin are YOU stacking up today?? post below and WAGMI!",
         likes: 152
     }
-]
+]*/
 
 // for(let i = 0; i < posts.length; i++){
 //     push(postsInDB, posts[i]);
 // }
 
+const addBtn = document.getElementById("add-btn"); 
+const addPostModal = document.getElementById("add-post-modal");
+addBtn.addEventListener("click", function(){
+    console.log("add-button clicked");
+    addPostModal.style.display="block";
+    const closeBtn = document.getElementById("close");
+    // When the user clicks on <span> (x), close the modal
+    closeBtn.onclick = function() {
+        addPostModal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+        addPostModal.style.display = "none";
+        }
+    }
+
+    // Open snackbar with form to add new post
+    // Figure out how to make a nice image upload UI
+    // add options for avatars (12 or so?)
+    // make the button-icon turn 45degrees to an X - add eventlistener for clicking on x to close? 
+    // clicking submit should close the snackbar
+});
+
 
 const feedEl = document.getElementById("feed");
 const feedItems = document.createDocumentFragment();
-for(let i=0; i<posts.length; i++){
-    const newPost = generatePost(posts[i]);
-    feedItems.append(newPost);
-}
-feedEl.append(feedItems);
 
-function generatePost(postArray){
-    console.log("generatePost() called");
+onValue(postsInDB, function(snapshot){
+    if(snapshot.exists()){
+        let currentPosts = Object.entries(snapshot.val());
+        console.log(currentPosts)
+        clearFeed();
+
+        for(let i=0; i<currentPosts.length; i++){
+            const newPost = generatePost(currentPosts[i]);
+            feedItems.append(newPost);
+        }
+    }
+    feedEl.append(feedItems);
+
+});
+
+// for(let i=0; i<posts.length; i++){
+//     const newPost = generatePost(posts[i]);
+//     feedItems.append(newPost);
+// }
+// feedEl.append(feedItems);
+
+function generatePost(array){
+
+    const postKey = array[0];
+    const postArray = array[1];
 
     const newPost = document.createElement("div");
     newPost.setAttribute("class", "post-container");
@@ -179,14 +222,8 @@ function getPostActions(postArray){
     return iconContainer; 
 }
 
+function clearFeed(){
+    feedEl.textContent = "";
+}
 
 
-// const likeBtn = document.createElement("a");
-// likeBtn.href="#";
-// likeBtn.innerText="hello";
-// const likeIcon = document.createElement("img");
-// likeIcon.setAttribute("src", "images/icon-heart.png")
-// likeBtn.append(likeIcon);
-
-// feedEl.append(likeBtn);
-// console.log(likeBtn)
