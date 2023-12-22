@@ -1,6 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"; 
 import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
+// import { getStorage, ref, uploadBytes } from "firebase/storage";
+// const imageStorage = getStorage();
 
 
 //make this an object with the databaseURL in it
@@ -46,29 +48,45 @@ const postsInDB = ref(database, "posts");
 // }
 
 const addBtn = document.getElementById("add-btn"); 
+let addBtnActive = true; //If true, button to add post, if false - button to close window
 const addPostModal = document.getElementById("add-post-modal");
 addBtn.addEventListener("click", function(){
-    console.log("add-button clicked");
-    addPostModal.style.display="block";
-    const closeBtn = document.getElementById("close");
-    // When the user clicks on <span> (x), close the modal
-    closeBtn.onclick = function() {
-        addPostModal.style.display = "none";
-    }
-    
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-        addPostModal.style.display = "none";
-        }
+
+    if (addBtnActive){ 
+        openModal(); 
     }
 
-    // Open snackbar with form to add new post
-    // Figure out how to make a nice image upload UI
+    else{ 
+        closeModal(); 
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    
+    /* window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal()
+        }
+    }
+    */
+
     // add options for avatars (12 or so?)
-    // make the button-icon turn 45degrees to an X - add eventlistener for clicking on x to close? 
+
     // clicking submit should close the snackbar
+
 });
+
+function openModal(){
+    addPostModal.style.visibility = "visible";
+    addPostModal.style.opacity = "1";
+    addBtn.style.rotate = "45deg";
+    addBtnActive = false;
+}
+function closeModal(){
+    addPostModal.style.visibility = "hidden";
+    addPostModal.style.opacity = "0";
+    addBtn.style.rotate = "";
+    addBtnActive = true;
+}
 
 
 const feedEl = document.getElementById("feed");
@@ -77,7 +95,6 @@ const feedItems = document.createDocumentFragment();
 onValue(postsInDB, function(snapshot){
     if(snapshot.exists()){
         let currentPosts = Object.entries(snapshot.val());
-        console.log(currentPosts)
         clearFeed();
 
         for(let i=0; i<currentPosts.length; i++){
@@ -157,6 +174,7 @@ function getPostActions(postArray){
     const iconContainer = document.createElement("div");
     
     // Check if local user has liked
+    // add to localStorage: key for image + liked/unliked
     let hasLiked = false;
 
     let likeIcon;
@@ -168,8 +186,9 @@ function getPostActions(postArray){
         likeIcon = liked;
     }
 
+    // Add like-function to doubleclicking the image as well
+
     const likeBtn = generateBtn("Like", likeIcon);
-    console.log(likeBtn);
     likeBtn.addEventListener("click", function(){
         if(hasLiked === false){
             hasLiked = true;
@@ -227,3 +246,76 @@ function clearFeed(){
 }
 
 
+const dropArea = document.getElementById("drop-area");
+const inputFile = document.getElementById("input-file");
+const imageView = document.getElementById("img-view");
+
+inputFile.addEventListener("change", uploadImage);
+
+function uploadImage(){
+    console.log("uploadImage() ran")
+    // Do I move imgLink outside of the function, so I can access it from an upload function for the entire form? 
+    let imgLink = URL.createObjectURL(inputFile.files[0]);
+    console.log(inputFile.files[0])
+    imageView.style.backgroundImage = `url(${imgLink})`;
+    imageView.textContent = "";
+    imageView.style.border = 0;
+}
+
+dropArea.addEventListener("dragover", function(e){
+    e.preventDefault();
+});
+
+dropArea.addEventListener("drop", function(e){
+    e.preventDefault();
+    inputFile.files = e.dataTransfer.files;
+    uploadImage();
+});
+
+
+const submitNewPostBtn = document.getElementById("ap-submit-btn"); 
+submitNewPostBtn.addEventListener("click", function(e){
+    e.preventDefault();
+    console.log("submit-button clicked")
+    uploadNewPost(e);
+    console.log(e);
+    // closeModal();
+});
+
+
+const comment = document.getElementById("ap-comment"); 
+const name = document.getElementById("ap-name");
+const location = document.getElementById("ap-location"); 
+
+
+function uploadNewPost(e){
+    console.log("uploadNewPost(e) ran")
+
+    const newPost = {};
+    // newPost.imageURL = inputFile.files[0];
+    //newPost.post = (link to image, maybe rename this) 
+    newPost.comment = comment.value; 
+    newPost.name = name.value; 
+    newPost.location = location.value; 
+    
+    newPost.likes = 0; 
+    newPost.username = name.value; 
+    newPost.avatar; 
+
+    push(postsInDB, newPost);
+
+    clearForm();
+
+    closeModal();
+}
+
+function clearForm(){
+    name.value = ""; 
+    location.value = "";
+    comment.value = ""; 
+    imageView.innerHTML = `<img src="images/uploadIcon.png">
+    <p>Drag and drop or click here <br> to upload image</p>
+    <span>Upload any images from desktop</span>`;
+    imageView.style.backgroundImage = "none";
+    imageView.style.border = "2px dashed #bbb5ff";
+}

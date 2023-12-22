@@ -42,7 +42,7 @@ header{
     border-bottom: solid 1px #c6c6c6;
     position: sticky;
     top: 0;
-
+    z-index: 2; 
 }
 
 header, 
@@ -130,6 +130,11 @@ header,
     width: inherit; /* Is this how you manage that?? */
 }
 
+/* #add-post-modal, */
+#add-btn{
+    transition-duration: 150ms;
+}
+
 /* .icon-btn:focus,  */
 .icon-btn:hover, 
 #add-btn:hover, 
@@ -137,25 +142,29 @@ header,
     opacity: 70%;
 }
 
-form ul{
+/* form ul{
     list-style-type: none;
-    
-}
+    margin:0; 
+    padding: 0; 
+} */
 
 
 /* Modal */
-#add-post-modal{
-    display:block;
-}
 
 .modal-content, 
 #close-modal-btn{
     background-color: whitesmoke;
-    border: 1px solid #888; 
+    /* border: 1px solid #888;  */
 }
 
 .modal{
-    display: none;
+    /* display: none; */
+    display: block; 
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 150ms linear, opacity 150ms linear;
+
+
     position: fixed; 
     z-index: 1; 
     left: 0;
@@ -169,11 +178,25 @@ form ul{
 
 .modal-content{
     /* background-color: whitesmoke; */
-    margin-top: 78px;
+    margin-top: 18px;
     /* margin: 15% auto; 15% from the top and centered */
     padding: 20px;
     /* border: 1px solid #888;  */
     /* width: 80%; */
+}
+
+.modal-content form{
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    gap: 5px;
+}
+
+.input-field{
+    display: flex; 
+    flex-direction: column-reverse;
+    align-items: end; 
 }
 
 #close-modal-div{
@@ -196,4 +219,58 @@ form ul{
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+#drop-area{
+    width: 300px; 
+    height: 300px; 
+    cursor: pointer;
+    /* padding: 30px;  */
+    background: #fff; 
+    text-align: center; 
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+/* form div{
+    display: flex; 
+} */
+
+textarea, 
+#ap-submit-btn,
+input{
+    width: 300px;
+    border-radius: 8px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#ap-comment{
+    height: 50px;
+}
+
+#img-view{
+    width: 100%; 
+    height: 100%; 
+    border-radius: 20px; 
+    border: 2px dashed #bbb5ff;
+    background: #f7f8ff;
+    background-position: center; 
+    background-size: cover;
+    /* display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
+}
+
+#img-view img{
+    width: 100px; 
+    margin-top: 55px;
+}
+
+#img-view span{
+    display: block; 
+    font-size: 10px;
+    color: #777;
+    margin-top: 15px;
 }

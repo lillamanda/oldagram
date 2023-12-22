@@ -55,41 +55,46 @@
                     </div>
                 </div>
                 <div class="modal-content">
-                    <span id="close">&times;</span>
                     <form>
-                        <ul>
-                            <li>
-                                <label for="ap-image">Upload image</label>
-                                <input type="image" id="ap-image" name="image">
-                            </li>
-    
-                            <li>
-                                <label for="ap-comment">Comment</label>
-                                <textarea id="ap-comment" name="comment" placeholder="add your comment"></textarea>
-                            </li>
-    
-                            <li>
-                                <label for="ap-name">Name</label>
-                                <input type="text" id="ap-name" name="name" placeholder="name">
-                            </li>
-    
-                            <li>
-                                <label for="ap-location">Location</label>
-                                <input type="text" id="ap-location" name="location" placeholder="location">
-                            </li>
-    
-                            <li>
-                                <label for="ap-username">Username</label>
-                                <input type="text" id="ap-username" name="username" placeholder="username">
-                            </li>
-    
-                            <li>
-                                <!-- <label for="ap-avatar">select your avatar</label> -->
-                                // Add multiple photo options
-                                <!-- <input type="image" id="" name="" placeholder=""> -->
-                            </li>
-                        </ul>
-                        <button id="ap-submit" type="submit">Submit</button>
+                        <label for="input-file" id="drop-area">
+                            <!-- only accepts images -->
+                            <input type="file" accept="image/*" id="input-file" hidden>
+                            <div id="img-view">
+                                <img src="images/uploadIcon.png">
+                                <p>Drag and drop or click here <br> to upload image</p>
+                                <span>Upload any images from desktop</span>
+                            </div>
+
+                        </label>
+
+                        <div class="input-field">
+                            <label for="ap-comment">Comment</label>
+                            <textarea id="ap-comment" name="comment" placeholder="add your comment"></textarea>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="ap-name">Name</label>
+                            <input type="text" id="ap-name" name="name" placeholder="name">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="ap-location">Location</label>
+                            <input type="text" id="ap-location" name="location" placeholder="location">
+                        </div>
+
+                        <!-- <div class="input-field">
+                            <label for="ap-username">Username</label>
+                            <input type="text" id="ap-username" name="username" placeholder="username">
+                        </div> -->
+
+                        <div class="input-field" id="avatar-selection">
+
+                        </div>
+
+                        <div>
+                            <button type="submit" id="ap-submit-btn">Submit</button>
+                        </div>
+ 
                     </form>
                 </div>
             </div>
